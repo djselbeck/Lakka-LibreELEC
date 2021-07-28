@@ -26,7 +26,8 @@ PKG_MESON_OPTS_TARGET="	   -Dimage-webp=false \
 			   -Dremoting=false \
 			   -Dpipewire=false \
 			   -Ddemo-clients=false \
-			   -Dshell-fullscreen=true"
+			   -Dshell-fullscreen=true \
+			   -Dbackend-x11=false"
 
 #¤                           --with-cairo-glesv2 \
 #                          --disable-xwayland \
