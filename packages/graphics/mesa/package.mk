@@ -3,11 +3,11 @@
 # Copyright (C) 2018-present Team LibreELEC (https://libreelec.tv)
 
 PKG_NAME="mesa"
-PKG_VERSION="21.1.6"
-PKG_SHA256="f38ba85c657a9670d92525c48c5910d43e96a9871fbfe3ccd5b84282d9bedb6f"
+PKG_VERSION="86111fdc9c87d0736a7b7be7e390be2080b0d5db"
+# PKG_SHA256=""
 PKG_LICENSE="OSS"
 PKG_SITE="http://www.mesa3d.org/"
-PKG_URL="https://github.com/mesa3d/mesa/archive/mesa-$PKG_VERSION.tar.gz"
+PKG_URL="https://gitlab.freedesktop.org/mesa/mesa.git"
 PKG_DEPENDS_TARGET="toolchain Mako:host expat libdrm"
 PKG_LONGDESC="Mesa is a 3-D graphics library with an API."
 PKG_TOOLCHAIN="meson"
@@ -39,6 +39,8 @@ if [ "$VULKAN_SUPPORT" = "yes" ]; then
   PKG_DEPENDS_TARGET+=" $VULKAN"
   if [ "$DEVICE" = "RPi4" ]; then
     PKG_MESON_OPTS_TARGET="${PKG_MESON_OPTS_TARGET//-Dvulkan-drivers=/-Dvulkan-drivers=broadcom}"
+  elif [ "$PROJECT" = "Rockchip" ] && [ "DEVICE" = "OdroidGoAdvance" ] ; then
+    PKG_MESON_OPTS_TARGET="${PKG_MESON_OPTS_TARGET//-Dvulkan-drivers=/-Dvulkan-drivers=panvk}"
   elif [ "$PROJECT" = "Generic" ]; then
     PKG_MESON_OPTS_TARGET="${PKG_MESON_OPTS_TARGET//-Dvulkan-drivers=/-Dvulkan-drivers=amd,intel}"
   fi
