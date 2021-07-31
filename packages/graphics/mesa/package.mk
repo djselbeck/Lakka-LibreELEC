@@ -39,7 +39,7 @@ if [ "$VULKAN_SUPPORT" = "yes" ]; then
   PKG_DEPENDS_TARGET+=" $VULKAN"
   if [ "$DEVICE" = "RPi4" ]; then
     PKG_MESON_OPTS_TARGET="${PKG_MESON_OPTS_TARGET//-Dvulkan-drivers=/-Dvulkan-drivers=broadcom}"
-  elif [ "$PROJECT" = "Rockchip" ] && [ "DEVICE" = "OdroidGoAdvance" ] ; then
+  elif [ "$PROJECT" = "Rockchip" ] && [ "DEVICE" = "RK3326" ] ; then
     PKG_MESON_OPTS_TARGET="${PKG_MESON_OPTS_TARGET//-Dvulkan-drivers=/-Dvulkan-drivers=panvk}"
   elif [ "$PROJECT" = "Generic" ]; then
     PKG_MESON_OPTS_TARGET="${PKG_MESON_OPTS_TARGET//-Dvulkan-drivers=/-Dvulkan-drivers=amd,intel}"
