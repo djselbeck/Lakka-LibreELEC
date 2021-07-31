@@ -1,0 +1,64 @@
+From 8aa8186cefdb43edc058b7482c47a47ee47f0d98 Mon Sep 17 00:00:00 2001
+From: Chris Morgan <macromorgan@hotmail.com>
+Date: Mon, 26 Jul 2021 14:01:30 -0500
+Subject: [PATCH 4/5] arm64: dts: rockchip: add rk817 charger to Odroid Go
+ Advance
+
+Add the new rk817 charger driver to the Odroid Go Advance. Create a
+monitored battery node as well for the charger to use. All values
+from monitored battery are gathered from the BSP kernel for the
+Odroid Go Advance provided by HardKernel.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+---
+ .../boot/dts/rockchip/rk3326-odroid-go2.dts   | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
+index 7fc674a99a6c..47bff3f2bd14 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3326-odroid-go2.dts
+@@ -52,6 +52,25 @@ backlight: backlight {
+ 		pwms = <&pwm1 0 25000 0>;
+ 	};
+ 
++	battery_cell: battery-cell {
++		compatible = "simple-battery";
++		charge-full-design-microamp-hours = <3000000>;
++		charge-term-current-microamp = <300000>;
++		constant-charge-current-max-microamp = <2000000>;
++		constant-charge-voltage-max-microvolt = <4200000>;
++		factory-internal-resistance-micro-ohms = <180000>;
++		voltage-max-design-microvolt = <4100000>;
++		voltage-min-design-microvolt = <3500000>;
++
++		ocv-capacity-celsius = <20>;
++		ocv-capacity-table-0 =	<4106000 100>, <4071000 95>, <4018000 90>, <3975000 85>,
++					<3946000 80>, <3908000 75>, <3877000 70>, <3853000 65>,
++					<3834000 60>, <3816000 55>, <3802000 50>, <3788000 45>,
++					<3774000 40>, <3760000 35>, <3748000 30>, <3735000 25>,
++					<3718000 20>, <3697000 15>, <3685000 10>, <3625000 5>,
++					<3500000 0>;
++	};
++
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+ 		pinctrl-names = "default";
+@@ -462,6 +481,13 @@ regulator-state-mem {
+ 			};
+ 		};
+ 
++		rk817_battery: battery {
++			monitored-battery = <&battery_cell>;
++			rockchip,resistor-sense = <10000>;
++			rockchip,sleep-enter-current = <300000>;
++			rockchip,sleep-filter-current = <100000>;
++		};
++
+ 		rk817_codec: codec {
+ 			rockchip,mic-in-differential;
+ 		};
+-- 
+2.30.1
+

@@ -1,0 +1,82 @@
+From 690905845224838b59989b98c9fe00cd873b0821 Mon Sep 17 00:00:00 2001
+From: Chris Morgan <macromorgan@hotmail.com>
+Date: Mon, 26 Jul 2021 14:01:27 -0500
+Subject: [PATCH 1/5] dt-bindings: Add Rockchip rk817 battery charger support
+
+Create dt-binding documentation to document rk817 battery and charger
+usage. New device-tree properties have been added.
+
+- rockchip,resistor-sense: The value in microohms of the sample
+                           resistor.
+- rockchip,sleep-enter-current: The value in microamps of the sleep
+                                enter current.
+- rockchip,sleep-filter-current: The value in microamps of the sleep
+                                 filter current.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+Signed-off-by: Maya Matuszczyk <maccraft123mc@gmail.com>
+---
+ .../devicetree/bindings/mfd/rk808.txt         | 35 +++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/mfd/rk808.txt b/Documentation/devicetree/bindings/mfd/rk808.txt
+index 23a17a6663ec..fa42b6253d26 100644
+--- a/Documentation/devicetree/bindings/mfd/rk808.txt
++++ b/Documentation/devicetree/bindings/mfd/rk808.txt
+@@ -70,13 +70,37 @@ Optional RK817 properties:
+ 
+ - vcc8-supply:  The input supply for BOOST
+ - vcc9-supply:  The input supply for OTG_SWITCH
++
+ - codec:	The child node for the codec to hold additional properties.
+ 		If no additional properties are required for the codec, this
+ 		node can be omitted.
+-
+-- rockchip,mic-in-differential: Telling if the microphone uses differential
++- rockchip,mic-in-differential:	Telling if the microphone uses differential
+ 				mode. Should be under the codec child node.
+ 
++- battery:	The child node for the charger to hold additional properties.
++		If a battery is not in use, this node can be omitted. If a
++		battery node is used, the following values are required:
++		rockchip,resistor-sense, rockchip,sleep-enter-current,
++		rockchip,sleep-filter-current, and a phandle to a
++		monitored-battery node that contains a valid value for
++		charge-full-design-microamp-hours,
++		charge-term-current-microamp,
++		constant-charge-current-max-microamp,
++		constant-charge-voltage-max-microvolt,
++		voltage-max-design-microvolt, voltage-min-design-microvolt,
++		and a valid ocv-capacity table.
++- rockchip,resistor-sense: Value in microohms of the battery sense resistor.
++			   The PMIC only supports values of either 10000 or
++			   20000. This value is used by the driver to set
++			   the correct divisor value to translate ADC readings
++			   into the proper units of measure.
++- rockchip,sleep-enter-current: Value in microamps of the sleep enter current
++				for the charger. Value is used by the driver
++				to calibrate the relax threshold.
++- rockchip,sleep-filter-current: Value in microamps of the sleep filter current
++				 for the charger. Value is used by the driver
++				 to derive the sleep sample current.
++
+ Optional RK818 properties:
+ - vcc1-supply:  The input supply for DCDC_REG1
+ - vcc2-supply:  The input supply for DCDC_REG2
+@@ -459,6 +483,13 @@ Example:
+ 			};
+ 		};
+ 
++		rk817_battery: battery {
++			monitored-battery = <&battery_cell>;
++			rockchip,resistor-sense = <10000>;
++			rockchip,sleep-enter-current = <300000>;
++			rockchip,sleep-filter-current = <100000>;
++		};
++
+ 		rk817_codec: codec {
+ 			rockchip,mic-in-differential;
+ 		};
+-- 
+2.30.1
+
