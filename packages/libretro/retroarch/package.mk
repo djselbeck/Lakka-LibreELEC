@@ -74,6 +74,8 @@ RETROARCH_GL=""
 if [ "$DEVICE" = "OdroidGoAdvance" ]; then
   PKG_DEPENDS_TARGET+=" librga libpng"
   RETROARCH_GL="--enable-kms --enable-odroidgo2 --disable-x11 --disable-wayland --enable-opengles --enable-opengles3 --enable-opengles3_2 --disable-mali_fbdev"
+elif [ "$DEVICE" = "RK3326" ]; then
+  RETROARCH_GL="--disable-kms --disable-x11 --enable-wayland --enable-opengles --disable-mali_fbdev --enable-opengles3 --enable-opengles3_1 --enable-vulkan"
 elif [ "$OPENGL_SUPPORT" = "yes" ]; then
   RETROARCH_GL="--enable-kms"
 elif [ "$OPENGLES" = "odroidc1-mali" ] || [ "$OPENGLES" = "opengl-meson" ] || [ "$OPENGLES" = "opengl-meson8" ] || [ "$OPENGLES" = "opengl-meson-t82x" ] || [ "$OPENGLES" = "allwinner-fb-mali" ]; then
@@ -208,7 +210,7 @@ makeinstall_target() {
   # Power settings
   # Use ondemand for all RPi devices (for backwards compatibility?)
   # and any battery powered device (OGA and RPi case)
-  if [ "$PROJECT" = "RPi" ] || [ "$DEVICE" = "OdroidGoAdvance" ]; then
+  if [ "$PROJECT" = "RPi" ] || [ "$DEVICE" = "OdroidGoAdvance" ] || [ "$DEVICE" = "RK3326" ] ; then
     echo 'cpu_main_gov = "ondemand"' >> $INSTALL/etc/retroarch.cfg
     echo 'cpu_menu_gov = "ondemand"' >> $INSTALL/etc/retroarch.cfg
     echo 'cpu_scaling_mode = "1"' >> $INSTALL/etc/retroarch.cfg
@@ -292,6 +294,17 @@ makeinstall_target() {
   if [ "$PROJECT" = "Generic" ]; then
     echo "video_context_driver = \"khr_display\"" >> $INSTALL/etc/retroarch.cfg
 #    echo "video_driver = \"vulkan\"" >> $INSTALL/etc/retroarch.cfg
+  fi
+
+  # Mainline RK3326 support defaults
+  if [ "$DEVICE" = "RK3326" ]; then
+    echo "audio_out_rate = \"44100\"" >> $INSTALL/etc/retroarch.cfg
+    echo "video_driver = \"glcore\"" >> $INSTALL/etc/retroarch.cfg
+    sed -i -r -e's/^#*audio_driver[[:alnum:]\ =\"]+/audio_driver = \"alsa\"/g' $INSTALL/etc/retroarch.cfg
+    echo "xmb_layout = 2" >> $INSTALL/etc/retroarch.cfg
+    echo "menu_shader_pipeline = \"1\""  >> $INSTALL/etc/retroarch.cfg
+    echo "menu_widget_scale_auto = false" >> $INSTALL/etc/retroarch.cfg
+    echo "menu_widget_scale_factor = 2.25" >> $INSTALL/etc/retroarch.cfg
   fi
 
   if [ "$DEVICE" = "OdroidGoAdvance" ]; then
