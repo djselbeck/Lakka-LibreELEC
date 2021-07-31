@@ -188,6 +188,16 @@ devices = \
         'config': 'odroidgoa_defconfig'
       },
     },
+    'RK3326': {
+      'odroidgo2': {
+        'dtb': 'rk3326-odroid-go2.dtb',
+        'config': 'odroid-go2_defconfig'
+      },
+      'rg351p': {
+        'dtb': 'rk3326-anbernic-rg351p.dtb',
+        'config': 'odroid-go2_defconfig'
+      },
+    },
     'RK3328': {
       'box': {
         'dtb': 'rk3328-box.dtb',
