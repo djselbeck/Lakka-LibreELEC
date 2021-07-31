@@ -1,0 +1,75 @@
+From cc5537909a0e4ceac2452927bae1d9aaa47398c7 Mon Sep 17 00:00:00 2001
+From: Hendrik Borghorst <hendrikborghorst@gmail.com>
+Date: Thu, 29 Jul 2021 13:07:09 +0000
+Subject: [PATCH] Unix: Make sysfs battery driver more compatible
+
+Signed-off-by: Hendrik Borghorst <hendrikborghorst@gmail.com>
+---
+ frontend/drivers/platform_unix.c | 36 ++++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
+
+diff --git a/frontend/drivers/platform_unix.c b/frontend/drivers/platform_unix.c
+index 59396646a4..5435e758eb 100644
+--- a/frontend/drivers/platform_unix.c
++++ b/frontend/drivers/platform_unix.c
+@@ -830,6 +830,7 @@ static void check_proc_acpi_sysfs_battery(const char *node,
+    bool       charge = false;
+    bool       choose = false;
+    unsigned capacity = 0;
++   unsigned capacity_now = 0;
+    int64_t length    = 0;
+    int       maximum = -1;
+    int     remaining = -1;
+@@ -838,21 +839,6 @@ static void check_proc_acpi_sysfs_battery(const char *node,
+ 
+    path[0]           = '\0';
+ 
+-   /* Stat type. Avoid unknown or device supplies. Missing is considered System. */
+-   snprintf(path, sizeof(path), "%s/%s/%s", base, node, "scope");
+-
+-   if (filestream_exists(path) != 0)
+-   {
+-      if (filestream_read_file(path, (void**)&buf, &length) == 1 && buf)
+-      {
+-         if (strstr((char*)buf, "Unknown"))
+-            goto end;
+-         else if (strstr((char*)buf, "Device"))
+-            goto end;
+-         free(buf);
+-         buf = NULL;
+-      }
+-   }
+ 
+    snprintf(path, sizeof(path), "%s/%s/%s", base, node, "status");
+ 
+@@ -878,10 +864,24 @@ static void check_proc_acpi_sysfs_battery(const char *node,
+    }
+ 
+    snprintf(path, sizeof(path), "%s/%s/%s", base, node, "capacity");
+-   if (filestream_read_file(path, (void**)&buf, &length) != 1)
+-      goto end;
++   if (!filestream_exists(path)) {
++	   snprintf(path, sizeof(path), "%s/%s/%s", base, node, "charge_full_design");
++	   if (filestream_read_file(path, (void**)&buf, &length) != 1)
++	      goto end;
++
++	   capacity = atoi(buf);
++	   snprintf(path, sizeof(path), "%s/%s/%s", base, node, "charge_now");
++	   if (filestream_read_file(path, (void**)&buf, &length) != 1)
++	      goto end;
++	   capacity_now = atoi(buf);
+ 
+-   capacity = atoi(buf);
++	   capacity = (capacity_now * 100)/capacity;
++   } else {
++	   if (filestream_read_file(path, (void**)&buf, &length) != 1)
++	      goto end;
++
++	   capacity = atoi(buf);
++   }
+ 
+    /*
+     * Keep record of valid capacities for calculating an average
+-- 
+2.25.1
+
