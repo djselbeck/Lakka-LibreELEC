@@ -48,6 +48,8 @@ make_target() {
   if [ "$ARCH" = "aarch64" ]; then
     if [ "$DEVICE" = "Switch" ]; then
       make -f Makefile.libretro platform=arm64 BUILTIN_GPU=unai DYNAREC=0
+    elif [ "$DEVICE" = "RK3326" ]; then
+      make -f Makefile.libretro platform=rpi4_64
     else
       make -f Makefile.libretro platform=unix
     fi
