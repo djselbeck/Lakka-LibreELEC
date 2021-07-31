@@ -29,6 +29,12 @@ case "$PROJECT" in
         PKG_URL="https://github.com/hardkernel/u-boot/archive/$PKG_VERSION.tar.gz"
         PKG_PATCH_DIRS="odroidgoadvance"
         ;;
+     RK3326)
+	    PKG_VERSION="2021.07"
+	    PKG_SHA256=""
+	    PKG_PATCH_DIRS="rk3326"
+	    PKG_URL="http://ftp.denx.de/pub/u-boot/u-boot-$PKG_VERSION.tar.bz2"
+    ;;
       *)
         PKG_VERSION="8659d08d2b589693d121c1298484e861b7dafc4f"
         PKG_SHA256="3f9f2bbd0c28be6d7d6eb909823fee5728da023aca0ce37aef3c8f67d1179ec1"
