@@ -1,10 +1,10 @@
 # Odroid Go Advance
 
-Lakka device for Odroid Go Advance
+Lakka device for Odroid Go Advance/Anbernic Rg351p/m
 
 **Build**
 
-* `PROJECT=Rockchip DEVICE=OdroidGoAdvance ARCH=arm make image`
+* `PROJECT=Rockchip DEVICE=RK3326 ARCH=arm make image`
 
 **How to use the image**
 
