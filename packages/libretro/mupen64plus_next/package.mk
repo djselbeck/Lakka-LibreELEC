@@ -102,6 +102,9 @@ make_target() {
     OdroidGoAdvance)
       make platform=unix-gles BOARD=ODROIDGOA GLES=1 FORCE_GLES=1 HAVE_NEON=1 WITH_DYNAREC=arm
       ;;
+    RK3326)
+      make platform=rpi4 GLES3=1 FORCE_GLES3=1
+      ;;
     RK3328)
       make platform=RK3328 GLES=1 FORCE_GLES=1 HAVE_NEON=1 WITH_DYNAREC=arm
       ;;
