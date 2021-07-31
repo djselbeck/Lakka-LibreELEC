@@ -40,6 +40,11 @@ fi
 
 configure_target() {
   cd $PKG_BUILD
+
+  if [ "$DEVICE" = "RK3326" ]; then
+	rm "udev/OpenSimHardware OSH PB Controller.cfg"
+	mv "udev/OpenSimHardware OSH PB Controller-mainline.cfg" "udev/OpenSimHardware OSH PB Controller.cfg"
+  fi
 }
 
 makeinstall_target() {
