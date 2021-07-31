@@ -200,6 +200,8 @@ post_makeinstall_target() {
   sed -e "s,^.*HandleLidSwitch=.*$,HandleLidSwitch=ignore,g" -i $INSTALL/etc/systemd/logind.conf
   if [ "$PROJECT" = "RPi" ]; then
     sed -e "s,^.*HandlePowerKey=.*$,HandlePowerKey=poweroff,g" -i $INSTALL/etc/systemd/logind.conf
+  elif [ "$PROJECT" = "Rockchip" -a "$DEVICE" = "RK3326" ]; then
+    sed -e "s,^.*HandlePowerKey=.*$,HandlePowerKey=suspend,g" -i $INSTALL/etc/systemd/logind.conf
   else
     sed -e "s,^.*HandlePowerKey=.*$,HandlePowerKey=ignore,g" -i $INSTALL/etc/systemd/logind.conf
   fi
