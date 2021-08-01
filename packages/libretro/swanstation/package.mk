@@ -51,7 +51,7 @@ PKG_CMAKE_OPTS_TARGET="-DCMAKE_BUILD_TYPE=Release \
                        -DBUILD_LIBRETRO_CORE=ON"
 
 # Compile with software renderer as default for devices not suporting OpenGL
-if [ "$PROJECT" = "Generic" -o "$DEVICE" = "RPi4" -o "$DEVICE" = "Switch" ]; then
+if [ "$PROJECT" = "Generic" -o "$DEVICE" = "RPi4" -o "$DEVICE" = "Switch" -o "$DEVICE" = "RK3326" ]; then
   PKG_PATCH_DIRS=""
 else
   PKG_PATCH_DIRS="no_opengl"
