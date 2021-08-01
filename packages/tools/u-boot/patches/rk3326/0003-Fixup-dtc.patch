@@ -1,0 +1,52 @@
+From 8be3cf8f7c3020c73b77bb6dba0936372cf0976a Mon Sep 17 00:00:00 2001
+From: Hendrik Borghorst <hendrikborghorst@gmail.com>
+Date: Sun, 1 Aug 2021 08:24:32 +0200
+Subject: [PATCH 3/3] Fixup dtc
+
+---
+ arch/arm/dts/rk3326-anbernic-rg351p.dts | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
+
+diff --git a/arch/arm/dts/rk3326-anbernic-rg351p.dts b/arch/arm/dts/rk3326-anbernic-rg351p.dts
+index 8e4ed8a80f..358f10bf37 100644
+--- a/arch/arm/dts/rk3326-anbernic-rg351p.dts
++++ b/arch/arm/dts/rk3326-anbernic-rg351p.dts
+@@ -12,7 +12,7 @@
+ 
+ / {
+ 	model = "ODROID-GO Advance";
+-	compatible = "hardkernel,rk3326-odroid-go2", "rockchip,rk3326";
++	compatible = "hardkernel,rk3326-anbernic-rg351p", "rockchip,rk3326";
+ 
+ 	chosen {
+ 		stdout-path = "serial2:115200n8";
+@@ -69,16 +69,6 @@
+ 		regulator-max-microvolt = <3800000>;
+ 	};
+ 
+-	vcc_host: vcc_host {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vcc_host";
+-		regulator-min-microvolt = <5000000>;
+-		regulator-max-microvolt = <5000000>;
+-
+-		enable-active-high;
+-		regulator-always-on;
+-		vin-supply = <&vccsys>;
+-	};
+ };
+ 
+ &cpu0 {
+@@ -469,6 +459,9 @@
+ 	status = "okay";
+ };
+ 
++&pwm0 {
++	status = "okay";
++};
+ &pwm1 {
+ 	status = "okay";
+ };
+-- 
+2.25.1
+
