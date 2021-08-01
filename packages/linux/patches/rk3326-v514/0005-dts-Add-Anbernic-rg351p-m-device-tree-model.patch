@@ -1,4 +1,4 @@
-From 5dfdc12104fa9714f9a0bcbdc9aee73149c223e6 Mon Sep 17 00:00:00 2001
+From 714949e91c5d1b3c5e62ce3c07b08d14b8df82c3 Mon Sep 17 00:00:00 2001
 From: Hendrik Borghorst <hendrikborghorst@gmail.com>
 Date: Sun, 25 Jul 2021 21:20:16 +0200
 Subject: [PATCH 5/5] dts: Add Anbernic rg351p/m device tree model
@@ -11,8 +11,8 @@ Signed-off-by: Hendrik Borghorst <hendrikborghorst@gmail.com>
 ---
  arch/arm64/boot/dts/rockchip/Makefile         |   1 +
  arch/arm64/boot/dts/rockchip/px30.dtsi        |  11 +
- .../dts/rockchip/rk3326-anbernic-rg351p.dts   | 556 ++++++++++++++++++
- 3 files changed, 568 insertions(+)
+ .../dts/rockchip/rk3326-anbernic-rg351p.dts   | 522 ++++++++++++++++++
+ 3 files changed, 534 insertions(+)
  create mode 100644 arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351p.dts
 
 diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
@@ -51,10 +51,10 @@ index 248ebb61aa79..10b4245243a4 100644
  		reg = <0x0 0xff518000 0x0 0x20>;
 diff --git a/arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351p.dts b/arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351p.dts
 new file mode 100644
-index 000000000000..ec7b7045f232
+index 000000000000..793eaf324a91
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3326-anbernic-rg351p.dts
-@@ -0,0 +1,556 @@
+@@ -0,0 +1,522 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
 + * Copyright (c) 2019 Hardkernel Co., Ltd
@@ -148,18 +148,6 @@ index 000000000000..ec7b7045f232
 +		regulator-always-on;
 +		regulator-min-microvolt = <3800000>;
 +		regulator-max-microvolt = <3800000>;
-+	};
-+
-+	vcc_host: vcc_host {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc_host";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+
-+		gpio = <&gpio0 RK_PB7 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		regulator-always-on;
-+		vin-supply = <&vccsys>;
 +	};
 +};
 +
@@ -267,7 +255,7 @@ index 000000000000..ec7b7045f232
 +		vcc5-supply = <&vccsys>;
 +		vcc6-supply = <&vccsys>;
 +		vcc7-supply = <&vccsys>;
-+		vcc8-supply = <&vcc_host>;
++		vcc8-supply = <&vccsys>;
 +		vcc9-supply = <&dcdc_boost>;
 +
 +		regulators {
@@ -427,7 +415,7 @@ index 000000000000..ec7b7045f232
 +				regulator-always-on;
 +				regulator-boot-on;
 +				regulator-min-microvolt = <5000000>;
-+				regulator-max-microvolt = <5400000>;
++				regulator-max-microvolt = <5000000>;
 +				regulator-name = "boost";
 +			};
 +			otg_switch: OTG_SWITCH {
@@ -502,7 +490,6 @@ index 000000000000..ec7b7045f232
 +&sdmmc {
 +	cap-sd-highspeed;
 +	supports-sd;
-+	ignore-pm-notify;
 +	card-detect-delay = <800>;
 +	cd-gpios = <&gpio0 RK_PA3 GPIO_ACTIVE_LOW>; /*[> CD GPIO <]*/
 +	sd-uhs-sdr12;
@@ -556,27 +543,6 @@ index 000000000000..ec7b7045f232
 +};
 +
 +&pinctrl {
-+	btns {
-+		btn_pins: btn-pins {
-+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PA6 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PA7 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PB4 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PB5 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PB6 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<1 RK_PB7 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA0 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA1 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA4 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA5 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA6 RK_FUNC_GPIO &pcfg_pull_up>,
-+					<2 RK_PA7 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+	};
-+
 +	headphone {
 +		hp_det: hp-det {
 +			rockchip,pins = <2 RK_PC6 RK_FUNC_GPIO &pcfg_pull_down>;
@@ -612,5 +578,5 @@ index 000000000000..ec7b7045f232
 +	};
 +};
 -- 
-2.30.1
+2.25.1
 
