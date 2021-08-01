@@ -191,7 +191,7 @@ devices = \
       },
       'rg351p': {
         'dtb': 'rk3326-anbernic-rg351p.dtb',
-        'config': 'odroid-go2_defconfig'
+        'config': 'anbernic-rg351p_defconfig'
       },
     },
     'RK3328': {
