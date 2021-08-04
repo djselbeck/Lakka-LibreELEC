@@ -50,7 +50,7 @@
     LINUX="mainline-5.14"
    
   # additional packages to install
-    ADDITIONAL_PACKAGES="dtc odroidgo2-utils odroidgoa-volkeys"
+    ADDITIONAL_PACKAGES="dtc odroidgo2-utils odroidgoa-volkeys htop"
 
   # Remove some broken drivers
     ADDITIONAL_DRIVERS="${ADDITIONAL_DRIVERS//RTL8192CU/}"
