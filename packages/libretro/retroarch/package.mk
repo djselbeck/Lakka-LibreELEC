@@ -75,7 +75,7 @@ if [ "$DEVICE" = "OdroidGoAdvance" ]; then
   PKG_DEPENDS_TARGET+=" librga libpng"
   RETROARCH_GL="--enable-kms --enable-odroidgo2 --disable-x11 --disable-wayland --enable-opengles --enable-opengles3 --enable-opengles3_2 --disable-mali_fbdev"
 elif [ "$DEVICE" = "RK3326" ]; then
-  RETROARCH_GL="--disable-kms --disable-x11 --enable-wayland --enable-opengles --disable-mali_fbdev --enable-opengles3 --enable-opengles3_1 --enable-vulkan"
+  RETROARCH_GL="--disable-kms --disable-x11 --enable-wayland --enable-opengles --disable-mali_fbdev --enable-opengles3 --enable-opengles3_1 --enable-opengles3_2 --enable-vulkan"
 elif [ "$OPENGL_SUPPORT" = "yes" ]; then
   RETROARCH_GL="--enable-kms"
 elif [ "$OPENGLES" = "odroidc1-mali" ] || [ "$OPENGLES" = "opengl-meson" ] || [ "$OPENGLES" = "opengl-meson8" ] || [ "$OPENGLES" = "opengl-meson-t82x" ] || [ "$OPENGLES" = "allwinner-fb-mali" ]; then
