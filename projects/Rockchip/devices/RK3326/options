@@ -42,7 +42,7 @@
     
   # Use mesa for OPENGLES and Vulkan
     OPENGLES="mesa"
-    VULKAN="vulkan-loader"
+    VULKAN="vulkan-tools"
 
   # Weston is necessary as not rotation is available for KMS/EGL context driver
     DISPLAYSERVER="weston"
