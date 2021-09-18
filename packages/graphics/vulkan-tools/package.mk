@@ -7,7 +7,7 @@ PKG_SHA256="a5629f519871d3c5881b05a33c3dfa252bd0d3b4df60be1023903c191025f47e"
 PKG_LICENSE="Apache 2.0"
 PKG_SITE="https://github.com/KhronosGroup/Vulkan-Tools"
 PKG_URL="https://github.com/KhronosGroup/Vulkan-tools/archive/v${PKG_VERSION}.tar.gz"
-PKG_DEPENDS_TARGET="toolchain cmake:host vulkan-loader"
+PKG_DEPENDS_TARGET="toolchain cmake:host vulkan-loader wayland"
 PKG_LONGDESC="This project provides Khronos official Vulkan Tools and Utilities."
 
 pre_configure_target() {
@@ -15,9 +15,6 @@ pre_configure_target() {
                          -DINSTALL_ICD=Off \
                          -DBUILD_CUBE=off"
 
-  # Disable Wayland WSI support
-  sed -e "s/Build Wayland WSI support\" ON/Build Wayland WSI support\" OFF/" -i ${PKG_BUILD}/cube/CMakeLists.txt
-  sed -e "s/Build Wayland WSI support\" ON/Build Wayland WSI support\" OFF/" -i ${PKG_BUILD}/vulkaninfo/CMakeLists.txt
 }
 
 pre_make_target() {
